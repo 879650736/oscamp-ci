@@ -4,8 +4,6 @@ LOG ?= info
 
 
 test:
-	python3 parser.py $(CHAPTER)
-	
 	cd ../arceos && \
 	make run ARCH=$(ARCH) LOG=$(LOG) | tee ../oscamp-ci/stdout-ch$(CHAPTER)
 	
