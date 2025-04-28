@@ -106,4 +106,4 @@ testh3:
 	done | tee -a ../oscamp-ci/stdout-ch$(CHAPTER)
 	python3 check/ch$(CHAPTER_NUM).py < stdout-ch$(CHAPTER) || (exit 1)
 
-.PHONY: testu testm testh1 testh2 testh3
+.PHONY: testu testm1 testm2 testh1 testh2 testh3
