@@ -15,9 +15,13 @@ else ifeq ($(CHAPTER),u2)
 RANGE := 7 8
 CHAPTER_NUM := 2
 BLK := y
-else ifeq ($(CHAPTER),m)
-RANGE := 1 2 3
+else ifeq ($(CHAPTER),m1)
+RANGE := 1 2
 CHAPTER_NUM := 3
+BLK := y
+else ifeq ($(CHAPTER),m2)
+RANGE := 3
+CHAPTER_NUM := 7
 BLK := y
 else ifeq ($(CHAPTER),h1)
 RANGE := 1
@@ -33,6 +37,8 @@ CHAPTER_NUM := 6
 BLK := y
 endif
 
+
+
 testu:
 	rm -f ./stdout*
 	cd ../arceos && \
@@ -41,23 +47,31 @@ testu:
 		rm -f disk.img; \
 		make pflash_img ARCH=$(ARCH); \
 		make disk_img ARCH=$(ARCH); \
-		make run ARCH=$(ARCH) LOG=$(LOG) A=tour/u_$${i}_0 BLK=$(BLK) | tail -n 20; \
+		make run ARCH=$(ARCH) LOG=$(LOG) A=tour/u_$${i}_0 BLK=$(BLK) | tail -n 10; \
 	done | tee -a ../oscamp-ci/stdout-ch$(CHAPTER)
 	python3 check/ch$(CHAPTER_NUM).py < stdout-ch$(CHAPTER) || (exit 1)
 
-testm:
+testm1:
 	rm -f ./stdout*
 	cd ../arceos && \
 	for i in $(RANGE); do \
 		make payload; \
-		if [$$(i) -eq 3]; then \
-			./update_disk.sh ./payload/hello_c/hello; \
-		else \
-			./update_disk.sh ./payload/origin/origin; \
-		fi; \
-		make run ARCH=$(ARCH) LOG=$(LOG) A=tour/m_$${i}_0 BLK=$(BLK) | tail -n 20; \
+		./update_disk.sh ./payload/origin/origin; \
+		make run ARCH=$(ARCH) LOG=$(LOG) A=tour/m_$${i}_0 BLK=$(BLK) | tail -n 10; \
 	done | tee -a ../oscamp-ci/stdout-ch$(CHAPTER)
 	python3 check/ch$(CHAPTER_NUM).py < stdout-ch$(CHAPTER) || (exit 1)
+
+testm2:
+	rm -f ./stdout*
+	cd ../arceos && \
+	for i in $(RANGE); do \
+		make payload; \
+		./update_disk.sh ./payload/hello_c/hello; \
+		make run ARCH=$(ARCH) LOG=$(LOG) A=tour/m_$${i}_0 BLK=$(BLK) | tail -n 10; \
+	done | tee -a ../oscamp-ci/stdout-ch$(CHAPTER)
+	python3 check/ch$(CHAPTER_NUM).py < stdout-ch$(CHAPTER) || (exit 1)
+
+
 
 testh1:
 	rm -f ./stdout*
@@ -65,7 +79,7 @@ testh1:
 	for i in $(RANGE); do \
 		make payload; \
 		./update_disk.sh ./payload/skernel/skernel; \
-		make run ARCH=$(ARCH) LOG=$(LOG) A=tour/h_$${i}_0 BLK=$(BLK) | tail -n 20; \
+		make run ARCH=$(ARCH) LOG=$(LOG) A=tour/h_$${i}_0 BLK=$(BLK) | tail -n 10; \
 	done | tee -a ../oscamp-ci/stdout-ch$(CHAPTER)
 	python3 check/ch$(CHAPTER_NUM).py < stdout-ch$(CHAPTER) || (exit 1)
 
@@ -78,7 +92,7 @@ testh2:
 		make pflash_img ARCH=$(ARCH); \
 		make disk_img ARCH=$(ARCH); \
 		./update_disk.sh tour/u_3_0/u_3_0_riscv64-qemu-virt.bin; \
-		make run ARCH=$(ARCH) LOG=$(LOG) A=tour/h_$${i}_0 BLK=$(BLK) | tail -n 20; \
+		make run ARCH=$(ARCH) LOG=$(LOG) A=tour/h_$${i}_0 BLK=$(BLK) | tail -n 10; \
 	done | tee -a ../oscamp-ci/stdout-ch$(CHAPTER)
 	python3 check/ch$(CHAPTER_NUM).py < stdout-ch$(CHAPTER) || (exit 1)
 
@@ -88,7 +102,7 @@ testh3:
 	for i in $(RANGE); do \
 		make A=tour/u_6_0/ ; \
 		./update_disk.sh tour/u_6_0/u_6_0_riscv64-qemu-virt.bin; \
-		make run ARCH=$(ARCH) LOG=$(LOG) A=tour/h_$${i}_0 BLK=$(BLK) | tail -n 20; \
+		make run ARCH=$(ARCH) LOG=$(LOG) A=tour/h_$${i}_0 BLK=$(BLK) | tail -n 10; \
 	done | tee -a ../oscamp-ci/stdout-ch$(CHAPTER)
 	python3 check/ch$(CHAPTER_NUM).py < stdout-ch$(CHAPTER) || (exit 1)
 
