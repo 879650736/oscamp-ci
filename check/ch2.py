@@ -1,14 +1,15 @@
 import base
 
-EXPECTED_2 = [
-    # u_1_0
-    "Hello, Arceos!",
-
+# Create tuples of (comment, pattern) instead of just patterns
+EXPECTED_u = [
+    ("u_7_0", "[mkfs.fat]"),
+    ("u_8_0", "worker1 checks code:"),
 ]
 
-NOT_EXPECTED_2 = [
-    "FAIL: T.T",
+NOT_EXPECTED_u = [
+    ("u_7_0", "No block dev!"),
+    ("u_8_0", "No block device found!"),
 ]
 
 if __name__ == "__main__":
-    base.test(EXPECTED_2, NOT_EXPECTED_2)
+    base.test(EXPECTED_u, NOT_EXPECTED_u)
