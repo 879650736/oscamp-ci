@@ -4,8 +4,7 @@ import base
 EXPECTED_u = [
     ("m_1_0", "monolithic kernel exit \[Some\(0\)\] normally!"),
     ("m_2_0", "handle page fault OK!"),
-    # ("m_2_0", "handle page fault OK!"),
-    # ("m_2_0", "handle page fault OK!"),
+    ("m_3_0", "Hello, UserApp!"),
 ]
 
 NOT_EXPECTED_u = [
