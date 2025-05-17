@@ -55,7 +55,7 @@ testm1:
 	rm -f ./stdout*
 	cd ../arceos && \
 	for i in $(RANGE); do \
-		make payload; \
+		make payload ARCH=$(ARCH); \
 		./update_disk.sh ./payload/origin/origin; \
 		make run ARCH=$(ARCH) LOG=$(LOG) A=tour/m_$${i}_0 BLK=$(BLK) | tail -n 10; \
 	done | tee -a ../oscamp-ci/stdout-ch$(CHAPTER)
@@ -65,7 +65,7 @@ testm2:
 	rm -f ./stdout*
 	cd ../arceos && \
 	for i in $(RANGE); do \
-		make payload; \
+		make payload ARCH=$(ARCH); \
 		./update_disk.sh ./payload/hello_c/hello; \
 		make run ARCH=$(ARCH) LOG=$(LOG) A=tour/m_$${i}_0 BLK=$(BLK) | tail -n 10; \
 	done | tee -a ../oscamp-ci/stdout-ch$(CHAPTER)
@@ -77,7 +77,7 @@ testh1:
 	rm -f ./stdout*
 	cd ../arceos && \
 	for i in $(RANGE); do \
-		make payload; \
+		make payload ARCH=$(ARCH); \
 		./update_disk.sh ./payload/skernel/skernel; \
 		make run ARCH=$(ARCH) LOG=$(LOG) A=tour/h_$${i}_0 BLK=$(BLK) | tail -n 10; \
 	done | tee -a ../oscamp-ci/stdout-ch$(CHAPTER)
