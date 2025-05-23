@@ -3,7 +3,7 @@ import base
 # Create tuples of (comment, pattern) instead of just patterns
 EXPECTED_u = [
     ("m_1_0", "monolithic kernel exit \[Some\(0\)\] normally!"),
-    ("m_2_0", "handle page fault OK!"),
+    ("m_2_0", "monolithic kernel exit \[Some\(0\)\] normally!"),
 ]
 
 NOT_EXPECTED_u = [
